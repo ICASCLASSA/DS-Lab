@@ -25,6 +25,10 @@ class Queue {
  		return (rear == cap);
  	}
 
+	T& Front() {
+		return stack[front];
+	}
+
  	void insert(T x) {
  		if(is_Full()) {
  			cout<<"\nQueue Full! Unable to insert: "<<x;
