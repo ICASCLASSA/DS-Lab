@@ -38,7 +38,7 @@ class DLList {
         }
     }
 
-    void insertFirst(int value) {
+    void insertFirst(T value) {
         Node<T> *newNode;
         newNode = new Node<T>(value);
 
@@ -53,7 +53,7 @@ class DLList {
         }
     }
 
-    void insertLast(int value) {
+    void insertLast(T value) {
         Node<T> *newNode;
         newNode = new Node<T>(value);
 
