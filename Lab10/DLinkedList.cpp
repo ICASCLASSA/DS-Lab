@@ -131,8 +131,26 @@ class DLList {
         cout<<"!!!";
     }
 
-    void insertInBetween(int idx) {
+    void insertInBetween(T value, int idx) {
+        Node<T> *newNode;
+        newNode = new Node<T>(value);
 
+        int i = 0;
+        Node<T> *current = head;
+
+        while(current != NULL && i < idx) {
+            current = current->next;
+            i++;
+            cout<<i<<endl;
+        }
+
+        if(current != NULL) {
+            newNode->next = current;        // Connecting newNode in the DLL
+            newNode->prev = current->prev;
+
+            current->prev->next = newNode;  // Securing Two Way Connections
+            current->prev = newNode;    
+        }
     }
 
     bool isEmpty() {
@@ -170,7 +188,7 @@ class DLList {
         cout<<" !!!";
     }
 
-    static DLList mergeAppend(DLList d1, DLList d2) {
+    static DLList& mergeAppend(DLList &d1, DLList &d2) {
         T data;
         
         if(d1.isEmpty())
@@ -179,14 +197,13 @@ class DLList {
             return d1;
         while(!d2.isEmpty()) {
             data = d2.deleteFirst();
-            cout<<endl<<data;
             d1.insertLast(data);
         }
 
         return d1;
     }
 
-    static DLList mergeZigZag(DLList dllist, DLList dllist_1) {
+    static DLList& mergeZigZag(DLList& dllist, DLList& dllist_1) {
         T data;
 
         if(dllist.isEmpty())
@@ -206,6 +223,7 @@ class DLList {
 int main() {
     char ch;
     char val;
+    int idx;
     DLList<char> dllist;
     DLList<char> dllist_1;
     dllist_1.insertFirst('E');
@@ -220,13 +238,14 @@ int main() {
         dllist.display();
         cout<<"\n\n1. Prepend";
         cout<<"\n2. Append";
-        cout<<"\n3. Remove from Head";
-        cout<<"\n4. Remove from Tail";
-        cout<<"\n5. Show List Item Count";
-        cout<<"\n6. Search";
-        cout<<"\n7. Reverse";
-        cout<<"\n8. Merge Using Append";
-        cout<<"\n9. Merge Using ZigZag";
+        cout<<"\n3. Insert";
+        cout<<"\n4. Remove from Head";
+        cout<<"\n5. Remove from Tail";
+        cout<<"\n6. Show List Item Count";
+        cout<<"\n7. Search";
+        cout<<"\n8. Reverse";
+        cout<<"\n9. Merge Using Append";
+        // cout<<"\n9. Merge Using ZigZag";
         cout<<"\nE. Exit\n>>> ";
         cin>>ch;
 
@@ -239,21 +258,26 @@ int main() {
                        cin>>val;
                        dllist.insertLast(val);
                        break;
-            case '3' : dllist.deleteFirst();
+            case '3' : cout<<"\nValue to be Inserted: ";
+                       cin>>val;
+                       cout<<"\nInsertion Index: ";
+                       cin>>idx;
+                       dllist.insertInBetween(val, idx);
                        break;
-            case '4' : dllist.deleteLast();
+            case '4' : dllist.deleteFirst();
                        break;
-            case '5' : dllist.count();
+            case '5' : dllist.deleteLast();
                        break;
-            case '6' : cout<<"\nValue to be Searched: ";
+            case '6' : dllist.count();
+                       break;
+            case '7' : cout<<"\nValue to be Searched: ";
                        cin>>val;
                        dllist.search(val);
                        break;
-            case '7' : dllist.reverse();
+            case '8' : dllist.reverse();
                        break;
-            case '8' : {
-                        DLList<char> mA;
-                        mA = DLList<char>::mergeAppend(dllist, dllist_1);
+            case '9' : {
+                        DLList<char> &mA = DLList<char>::mergeAppend(dllist, dllist_1);
                         cout<<"\n\t";
                         mA.display();
                         break;
